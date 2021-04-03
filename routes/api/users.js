@@ -18,7 +18,6 @@ router.post('/',
     ],
     async (req, res) => {
         const errors = validationResult(req);
-        console.log('::User:Register', req.body);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() })
         }
@@ -56,7 +55,6 @@ router.post('/',
                 res.json({ token });
             });
         } catch (error) {
-            console.log(error.message);
             res.status(500).send('Server Error');
         }
 
