@@ -1,18 +1,22 @@
 const mongoose = require("mongoose");
 const config = require('config');
-const uri = config.get('mongoURI');
-
-console.log('uri', uri);
+const DB_URL = config.get('mongoURI');
 
 const connectDB = async () => {
     try {
-        await new mongoose.connect(uri, {
+        await new mongoose.connect(DB_URL, {
+            keepAlive: true,
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
-        console.log('MongoDB Connected');
+        console.log('****************************')
+        console.log('*    Starting Server')
+        console.log(`*    Port: ${process.env.PORT || 3000}`)
+        console.log(`*    NODE_ENV: ${process.env.NODE_ENV}`)
+        console.log(`*    Database: MongoDB`)
+        console.log(`*    DB Connection: OK\n****************************\n`)
     } catch (e) {
-        console.error(e);
+        console.log(`Error connecting to DB: ${e}`);
         process.exit(1);
     }
 }
