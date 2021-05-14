@@ -5,25 +5,32 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const gravatar = require('gravatar');
+const trimRequest = require('trim-request');
 const User = require('../../models/User');
 
-// @route   POST api/users
+// @route   POST api/users/register
 // @desc    Register user
 // @access  Public
-router.post('/',
+router.post('/register',
+    trimRequest.all,
     [
         check('name', 'Name is Required').not().isEmpty(),
         check('email', 'Please include a valid email').isEmail(),
         check('password', 'Please enter a password with 6 or more characters').isLength({ min: 6 }),
     ],
     async (req, res) => {
+
+        // get the errors
         const errors = validationResult(req);
+
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() })
+            return res.status(400).json({ errors: errors.array() });
         }
 
         const { name, email, password } = req.body;
+
         try {
+            // check if email exists
             let user = await User.findOne({ email });
 
             if (user) {
@@ -39,7 +46,9 @@ router.post('/',
             user = new User({ name, email, password, avatar });
 
             const salt = await bcrypt.genSalt(10);
+
             user.password = await bcrypt.hash(password, salt);
+
             await user.save();
 
             const payload = {
@@ -48,12 +57,14 @@ router.post('/',
                 }
             };
 
+            // @TODO: Send email
             jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 3600 }, (err, token) => {
                 if (err) {
                     throw err;
                 }
                 res.json({ token });
             });
+
         } catch (error) {
             res.status(500).send('Server Error');
         }

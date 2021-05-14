@@ -4,13 +4,16 @@ const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const trimRequest = require('trim-request');
 const auth = require('../../middleware/auth');
 const User = require('../../models/User');
 
 // @route   GET api/auth
-// @desc    Test route
+// @desc    Auth route
 // @access  Public
-router.get('/', auth, async (req, res) => {
+router.get('/',
+    trimRequest.all, auth,
+    async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
         res.json(user);
@@ -19,10 +22,11 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
-// @route   POST api/auth
-// @desc    Authenticate user & get token
+// @route   POST api/auth/login
+// @desc    Login
 // @access  Public
-router.post('/',
+router.post('/login',
+    trimRequest.all,
     [
         check('email', 'Please include a valid email').isEmail(),
         check('password', 'Password is required').exists(),
