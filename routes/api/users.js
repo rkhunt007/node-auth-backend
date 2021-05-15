@@ -7,6 +7,7 @@ const config = require('config');
 const gravatar = require('gravatar');
 const trimRequest = require('trim-request');
 const User = require('../../models/User');
+const { sendRegistrationEmailMessage } = require('../../middleware/sendRegistrationEmail')
 
 // @route   POST api/users/register
 // @desc    Register user
@@ -57,7 +58,8 @@ router.post('/register',
                 }
             };
 
-            // @TODO: Send email
+            sendRegistrationEmailMessage(user)
+
             jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 3600 }, (err, token) => {
                 if (err) {
                     throw err;

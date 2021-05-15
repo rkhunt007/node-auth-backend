@@ -1,4 +1,7 @@
 {
     "mongoURI": "mongodb://localhost:27017/test",
-    "jwtSecret": "mysecrettoken"
+    "jwtSecret": "mysecrettoken",
+    "email": "rahulkhunt62@gmail.com",
+    "service": "gmail",
+    "pass": "Ilm2gf@yah"
 }
