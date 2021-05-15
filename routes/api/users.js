@@ -58,7 +58,9 @@ router.post('/register',
                 }
             };
 
-            sendRegistrationEmailMessage(user)
+            if (process.env.NODE_ENV === 'production') {
+                sendRegistrationEmailMessage(user);
+            }
 
             jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 3600 }, (err, token) => {
                 if (err) {
