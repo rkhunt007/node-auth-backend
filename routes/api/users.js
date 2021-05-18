@@ -30,10 +30,10 @@ router.post('/register',
 
         const { name, email, password } = req.body;
 
+        
         try {
             // check if email exists
             let user = await User.findOne({ email });
-
             if (user) {
                 return res.status(400).json({ errors: [{ msg: 'User Already Exists' }] });
             }
@@ -43,13 +43,9 @@ router.post('/register',
                 r: 'pg',
                 d: 'mm'
             });
-
             user = new User({ name, email, password, avatar });
-
             const salt = await bcrypt.genSalt(10);
-
             user.password = await bcrypt.hash(password, salt);
-
             await user.save();
 
             const payload = {

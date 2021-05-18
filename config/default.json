@@ -3,5 +3,7 @@
     "jwtSecret": "mysecrettoken",
     "email": "rahulkhunt62@gmail.com",
     "service": "gmail",
-    "pass": "Ilm2gf@yah"
+    "pass": "Ilm2gf@yah",
+    "timeout": 10000,
+    "url": "http://localhost:5000"
 }
