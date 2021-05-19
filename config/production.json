@@ -1,9 +1,0 @@
-{
-    "mongoURI": "mongodb+srv://rahul:test@cluster0.vm7mk.mongodb.net/test?retryWrites=true&w=majority",
-    "jwtSecret": "mysecrettoken",
-    "email": "rahulkhunt62@gmail.com",
-    "service": "gmail",
-    "pass": "",
-    "timeout": 5000,
-    "url": "http://localhost:5000"
-}

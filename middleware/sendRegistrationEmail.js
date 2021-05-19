@@ -1,5 +1,7 @@
 const nodemailer = require('nodemailer');
-const config = require('config');
+const service = process.env.service;
+const email = process.env.email;
+const pass = process.env.pass;
 
 /**
  * Sends registration email
@@ -10,15 +12,15 @@ const sendRegistrationEmailMessage = (user = {}) => {
     const htmlMessage = `<p>Hello ${user.name},</p> <p>Welcome! Thanks for creating an account with us.<p>Thank you.</p>`
 
     let transporter = nodemailer.createTransport({
-        service: config.get('service'),
+        service: service,
         auth: {
-            user: config.get('email'),
-            pass: config.get('pass')
+            user: email,
+            pass: pass
         }
     })
 
     const mailOptions = {
-        from: config.get('email'),
+        from: email,
         to: user.email,
         subject: subject,
         html: htmlMessage

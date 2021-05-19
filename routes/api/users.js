@@ -3,11 +3,11 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const config = require('config');
 const gravatar = require('gravatar');
 const trimRequest = require('trim-request');
 const User = require('../../models/User');
 const { sendRegistrationEmailMessage } = require('../../middleware/sendRegistrationEmail')
+const jwtSecret = process.env.jwtSecret;
 
 // @route   POST api/users/register
 // @desc    Register user
@@ -58,7 +58,7 @@ router.post('/register',
                 sendRegistrationEmailMessage(user);
             }
 
-            jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 3600 }, (err, token) => {
+            jwt.sign(payload, jwtSecret, { expiresIn: 3600 }, (err, token) => {
                 if (err) {
                     throw err;
                 }
