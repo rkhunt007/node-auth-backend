@@ -3,7 +3,6 @@ require('dotenv').config();
 const connectDB = require('./config/db');
 const cors = require('cors');
 const helmet = require('helmet');
-const config = require('config');
 const axios = require('axios');
 const faker = require('faker');
 
